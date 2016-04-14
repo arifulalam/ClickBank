@@ -5,74 +5,6 @@
 	* website 	: http://syncmachine.com
 	* ClickBank API DOC: https://support.clickbank.com/entries/22821303-ClickBank-API
 	*/
-	
-	/*$clickbank = new ClickBank(array(
-								'account' 	=> 'ACCOUNT_NAME', 
-								'api_key' 	=> 'API-KEY' , 
-								'dev_key' 	=> 'DEV-KEY',
-								'secret_key'=> 'SECRET_KEY'
-							)
-					);*/
-
-	#$orders = $clickbank->getOrderByEmail('email@domain.com');
-	$orders = $clickbank->getOrderByParam(array('type' => 'SALE', 'email' => 'email@domain.com'));
-	if(empty($orders))
-		$orders = $clickbank->getOrderByParam(array('type' => 'TEST_SALE', 'email' => 'email@domain.com'));
-	/*	
-		^^^ Above line should be at top before calling any command from following #commented lines.
-		Call all ClickBank order records via client email address, payment receipt number or Product ID.
-		below shown how:
-		Following will return all the orders for a given email address/ receipt number/ item id.
-		You have to check those in a loop for your required one.
-	*/
-
-	$status = $clickbank->getOrderStatus('2V3LLPHE-B003'));
-	#$orders = $clickbank->getOrderByEmail('EMAIL_ADDRESS');
-	#$orders = $clickbank->getOrderByReceipt('RECEIPT_NO'[, ITEM_NO]);
-	#$orders = $clickbank->getOrderByItemID(ITEM_ID);
-	#$orders = $clickbank->getOrderByDate(START_DATE, END_DATE); //date format: yyyy-mm-dd, START_DATE (required), END_DATE (optional as default value is current date)
-	
-	/*$params = array(
-	        'startDate' => date('Y-m-d', strtotime('-1 week')),
-					'endDate' 	=> date('Y-m-d', strtotime('-1 day')),
-					'type' 		=> 'SALE', //SALE / RFND / CGBK / FEE / BILL / TEST_SALE / TEST_BILL / TEST_RFND /TEST_FEE
-					'email' 	=> 'ariful-alam@hotmail.com',
-					'item' 		=> 1
-					'vendor' 	=> 'VENDOR_NAME',
-					'affiliate' => 'AFFILIATE_NAME',
-					'lastName' 	=> 'CUSTOMER_LAST_NAME',
-					'tid' 		=> 'TRACKING ID/ PROMO CODE',
-					'role' 		=> 'VENDOR', //VENDOR / AFFILIATE
-					'postalCode'=> 'CUSTOMER_POSTAL/ZIP_CODE',
-					'amount' 	=> 'TOTAL_TRANSACTION_AMOUNT'
-				);
-	$orders = $clickbank->getOrderByParam($params);
-	#paramter is optional. without parameter this will list all orders.
-	*/
-
-  #To change a recurring product (up/downgrade)	
-	#$orders = $clickbank->changeProduct('D8298WET', 22, 98);
-	#print_r($orders);
-
-  #To check order status of a receipt/ receipt and item
-	#$orders = $clickbank->getOrderStatus('RECEIPT_NO' [, ITEM_NO]);
-
-	#$orders = $clickbank->getOrderCountByEmail('EMAIL_ADDRESS');
-	#$orders = $clickbank->getOrderCountByDate(START_DATE, END_DATE); date format: yyyy-mm-dd, START_DATE (required), END_DATE (optional as default is current date.)
-
-	#changeProduct(RECEIPT_NO, OLD_ITEM_ID, NEW_ITEM_ID[, CARRY_AFFILIATE {true/false}]);
-
-	/*$orders = $clickbank->analyticsStatus();
-	print_r($orders);*/
-	#print_r($clickbank->getProducts(array('sku' => 'list', 'type' => '')));//STANDARD | RECURRING
-
-	#print_r($clickbank->getOrderByParam(array('email' => 'ariful-alam@hotmail.com', 'type' => 'TEST_SALE')));
-
-	#print_r($clickbank->getOrderByEmail('successfull10@comcast.net'));
-
-	#print_r($clickbank->getImages());
-	echo "</pre>";
-
 
 	class ClickBank{
 		function __construct($clickbank_api){
@@ -172,8 +104,11 @@
 		}
 
 		function getOrderCountByDate($startDate = '', $endDate = ''){
-			$endDate = (empty($endDate)) ? date('Y-m-d') : $endDate;
-			$access_url = "orders/count/?startDate=$startDate&endDate=$endDate";
+			$endDate = (empty($startDate)) ? '' : ((empty($endDate)) ? date('Y-m-d') : $endDate);
+
+			if(empty($startDate)) $access_url = "orders/count/";
+			else $access_url = "orders/count/?startDate=$startDate&endDate=$endDate";
+			
 			list($curl, $count) = $this->cURL($access_url, 1);
 			return $count;
 		}
