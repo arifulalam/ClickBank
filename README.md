@@ -119,14 +119,14 @@ Parameters are optional. If parameter(s) given, then matching orders will be ret
 $params = array(
     'startDate' => date('Y-m-d', strtotime('-1 week')),
     'endDate' 	=> date('Y-m-d', strtotime('-1 day')),
-    'type' 		=> 'SALE', //SALE / RFND / CGBK / FEE / BILL / TEST_SALE / TEST_BILL / TEST_RFND /TEST_FEE
+    'type' 	=> 'SALE', //SALE / RFND / CGBK / FEE / BILL / TEST_SALE / TEST_BILL / TEST_RFND /TEST_FEE
     'email' 	=> 'ariful-alam@hotmail.com',
-    'item' 		=> 1
+    'item' 	=> 1
     'vendor' 	=> 'VENDOR_NAME',
     'affiliate' => 'AFFILIATE_NAME',
     'lastName' 	=> 'CUSTOMER_LAST_NAME',
-    'tid' 		=> 'TRACKING ID/ PROMO CODE',
-    'role' 		=> 'VENDOR', //VENDOR / AFFILIATE
+    'tid' 	=> 'TRACKING ID/ PROMO CODE',
+    'role' 	=> 'VENDOR', //VENDOR / AFFILIATE
   );
 $orders = $clickbank->getOrderCountByParam($params);
 print_r($orders);
